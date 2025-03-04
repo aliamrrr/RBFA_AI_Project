@@ -1,0 +1,15 @@
+streamlit
+Pillow
+opencv-python
+torch
+torchvision
+tqdm
+moviepy
+matplotlib
+numpy
+pandas
+supervision
+langchain
+langchain-community
+streamlit-drawable-canvas
+ultralytics
