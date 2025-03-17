@@ -2,16 +2,26 @@ import streamlit as st
 import interface1
 import interface2
 
-st.set_page_config(page_title="Application Fusionnée", layout="wide")
+# Page configuration
+st.set_page_config(page_title="Merged Application", layout="wide")
 
-# Création des onglets
-tab1, tab2 = st.tabs(["Interface 1", "Interface 2"])
+# Main title
+st.title("📹 Football Video Analysis Application")
+st.markdown("---")
 
+# Creating tabs
+tab1, tab2 = st.tabs(["⚽ Action Analysis", "📊 Tactical Visualization"])
+
+# Interface 1: Action Analysis
 with tab1:
-    extract_frames.show_interface1()  # Appelle la fonction définie dans extract_frames.py
+    st.header("🎥 Action Analysis and Clip Generation")
+    interface1.show_interface1()
 
+# Interface 2: Tactical Visualization
 with tab2:
-    main.show_interface_2()  # Appelle la fonction définie dans main.py
+    st.header("📍 Advanced Tactical Visualization")
+    interface2.show_interface_2()
+
 
 
 
