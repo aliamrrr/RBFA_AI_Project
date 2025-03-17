@@ -1,0 +1,5 @@
+1st :
+- See on the match video, last line (opponent or our back position) , and triangle of our/their attackers
+
+2nd:
+Attack position -> Get voronoi for each attacker, with defense line + first and offside line
