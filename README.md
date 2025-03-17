@@ -36,7 +36,6 @@ This Streamlit-based application provides two main functionalities for football 
 │-- 📜 interface1.py      # Action analysis module
 │-- 📜 interface2.py      # Tactical visualization module
 │-- 📜 requirements.txt   # Python dependencies
-│-- 📂 data/              # Folder for uploaded videos
 ```
 
 ## 📝 Usage
