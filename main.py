@@ -1,6 +1,6 @@
 import streamlit as st
-import extract_frames
-import main
+import interface1
+import interface2
 
 st.set_page_config(page_title="Application Fusionnée", layout="wide")
 
