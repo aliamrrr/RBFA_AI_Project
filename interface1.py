@@ -7,6 +7,7 @@ def show_interface1():
     import json
     import csv
     from datetime import timedelta
+    import traceback
 
     # ==============================
     # 🖥️ Computer Vision & Image Processing
@@ -118,8 +119,6 @@ def show_interface1():
     init_session_state()
 
 
-    st.title("⚽ Football Video Analysis System")
-
     # Control Widgets
     video_path = st.text_input("Video Path", r"C:\Users\Administrateur\Desktop\RBFA\last_ukr.mp4")
 
@@ -140,7 +139,7 @@ def show_interface1():
         st.session_state.stop = True
 
     # Tabs to organize the interface
-    tab1, tab2, tab3,tab4 = st.tabs(["🎥 Video processing","📊 Timeline visualisations", "📄 Tracking data","Generate sequences"])
+    tab1, tab2, tab3,tab4 = st.tabs(["🎥 Video processing","📊 Timeline visualisations", "📄 Tracking data","🎥 Generate sequences"])
 
 
     import streamlit as st
@@ -150,32 +149,21 @@ def show_interface1():
     with tab1:
         if st.session_state.processing and not st.session_state.stop:
 
-            # Sélecteur pour choisir la minute spécifique
-            minute_selected = 20
+                minute_selected = 20
 
-            # Vérifie si le classifier est déjà chargé pour éviter de le recharger
-            if st.session_state.classifier is None:
-                config = SoccerPitchConfiguration()
-                player_model = load_player_detection_model()
+                if st.session_state.classifier is None:
+                    config = SoccerPitchConfiguration()
+                    player_model = load_player_detection_model()
 
-                # Génération du fichier temporaire contenant une séquence d'une minute
-                with st.spinner(f"Extracting video segment for minute {minute_selected}..."):
-                    video = VideoFileClip(video_path)
-                    start_time = minute_selected * 60  # Convertir en secondes
-                    end_time = min(start_time + 60, video.duration)  # Ne pas dépasser la durée totale
+                    # Preparing classifier
+                    with st.spinner('Initializing team classifier...'):
+                        st.session_state.classifier = process_video(temp_video_path, player_model,minute_selected)
 
-                    # Création d'un fichier temporaire
-                    with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as temp_file:
-                        temp_video_path = temp_file.name
-                        video.subclip(start_time, end_time).write_videofile(temp_video_path, codec="libx264", audio=False)
-
-                # Traitement de la vidéo avec la séquence extraite
-                with st.spinner('Initializing team classifier...'):
-                    st.session_state.classifier = process_video(temp_video_path, player_model)
-
-                # Display the selectors for team_id and attack_direction
+                # selectors for team_id and attack_direction
                 st.session_state.team_id = st.selectbox("Select Team ID", options=[0, 1], index=0)
                 st.session_state.attack_direction = st.selectbox("Select Attack direction", options=["left", "right"], index=0)
+
+                print(st.session_state.attack_direction)
 
                 # Proceed button for analysis
                 proceed_button = st.button("Proceed with Analysis")
@@ -194,7 +182,11 @@ def show_interface1():
                         st.success("✅ Processing completed successfully!")
 
                     except Exception as e:
-                        st.error(f"❌ Error: {str(e)}")
+                        error_message = str(e)
+                        stack_trace = traceback.format_exc()  # Capture la stack trace complète
+                        print(f"Error during analysis: {error_message}")
+                        print(f"Stack Trace:\n{stack_trace}")
+                        st.error(f"❌ Error: {error_message}")
                         st.session_state.processing = False
 
 
@@ -224,7 +216,7 @@ def show_interface1():
 
                 percentages = calculate_position_percentages(data)
             
-                st.markdown("### Répartition des Positions (%)")
+                st.markdown("### Positions (%)")
                 col1, col2, col3 = st.columns(3)
 
                 with col1:
@@ -288,9 +280,9 @@ def show_interface1():
             if uploaded_json:
                 data = json.load(uploaded_json)
 
-                times_defense = get_times_by_pos(data, "back")
-                times_attack = get_times_by_pos(data, "attack")
-                times_middle = get_times_by_pos(data, "middle")
+                times_defense = list(dict.fromkeys(get_times_by_pos(data, "back")))
+                times_attack = list(dict.fromkeys(get_times_by_pos(data, "attack")))
+                times_middle = list(dict.fromkeys(get_times_by_pos(data, "middle")))
 
                 st.write("🔍 **Choose a position to extract the videos**")
 
@@ -300,6 +292,7 @@ def show_interface1():
                     if st.button("🛡 Defense"):
                         print(video_path)
                         with st.spinner("⏳ Extraction in progress..."):
+                            print(times_defense)
                             clips = extract_video_clips(video_path, times_defense)
                         st.success("✅ Extraction done !")
                         for clip in clips:
