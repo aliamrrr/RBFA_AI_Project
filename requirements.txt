@@ -10,7 +10,4 @@ matplotlib
 numpy
 pandas
 supervision
-langchain
-langchain-community
-streamlit-drawable-canvas
 ultralytics
