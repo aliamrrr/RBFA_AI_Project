@@ -1,4 +1,6 @@
 streamlit
+transformers
+umap-learn
 inference
 Pillow
 opencv-python
