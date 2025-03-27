@@ -42,3 +42,48 @@ This Streamlit-based application provides two main functionalities for football 
 - Open the web interface and navigate between the two tabs:
   - **Action Analysis:** Upload a football video to extract key moments.
   - **Tactical Visualization:** Upload a video for tactical insights.
+
+## 🏆 Results & Examples
+
+### 📸 Image Visualizations
+
+#### 🔹 Tactical Views & Team Connections  
+Visualization of player positions and their connections to analyze team structure.
+
+<p align="center">
+  <img src="github_visuals/area_pitch.jpg" alt="Tactical Views" width="45%">
+  <img src="github_visuals/back_lines.jpg" alt="Team Connections" width="45%">
+</p>
+
+#### 🏟️ Convex Areas & Team Pitch Occupation  
+Analysis of pitch control and space occupation by each team.
+
+<p align="center">
+  <img src="github_visuals/back_area_frame.jpg" alt="Convex Areas" width="45%">
+  <img src="github_visuals/voronoi_back.jpg" alt="Team Pitch Occupation" width="45%">
+</p>
+
+#### ⏳ Timeline Generation  
+Automatic timeline generation of key match events.
+
+<p align="center">
+  <img src="github_visuals/kickoff.png" alt="Timeline Generation" width="60%">
+</p>
+
+---
+
+### 🎥 Generated Videos  
+
+#### 🔹 Tactical Insights Compilation  
+A video showcasing multiple analytical visualizations:
+
+- **Team Occupation (Areas)**  
+- **Quantitative Team Occupation**  
+- **Defense, Middle, or Attack Areas or Lines**  
+
+<p align="center">
+  <img src="github_visuals/video_resluts.mp4" alt="Generated Video" width="70%">
+</p>
+
+</p>
+
