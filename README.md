@@ -83,8 +83,7 @@ A video showcasing multiple analytical visualizations:
 - **Quantitative Team Occupation**  
 - **Defense, Middle, or Attack Areas or Lines**  
 
-![Generated Video](https://raw.githubusercontent.com/aliamrrr/repository/main/github_visuals/video_results.gif)
-
-
+<p align="center">
+  <img src="github_visuals/video_results.gif" alt="Generated Video" width="75%">
 </p>
 
