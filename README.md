@@ -84,7 +84,7 @@ A video showcasing multiple analytical visualizations:
 - **Defense, Middle, or Attack Areas or Lines**  
 
 <p align="center">
-  <img src="github_visuals/video_results.gif" alt="Generated Video" width="100%">
+  <img src="github_visuals/video_results.gif" alt="Generated Video" width="75%">
 </p>
 
 </p>
