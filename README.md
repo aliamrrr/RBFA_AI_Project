@@ -50,18 +50,20 @@ This Streamlit-based application provides two main functionalities for football 
 #### 🔹 Tactical Views & Team Connections  
 Visualization of player positions and their connections to analyze team structure.
 
-<p align="center">
-  <img src="github_visuals/back_area_pitch.jpg" alt="Tactical Views" width="50%">
-  <img src="github_visuals/back_lines.jpg" alt="Team Connections" width="50%">
-</p>
+#### 🔹 Tactical Views & Team Connections  
+Visualization of player positions and their connections.
+
+| Tactical Views | Team Connections |
+|---------------|-----------------|
+| ![Tactical Views](github_visuals/back_area_pitch.jpg) | ![Team Connections](github_visuals/back_lines.jpg) |
 
 #### 🏟️ Convex Areas & Team Pitch Occupation  
-Analysis of pitch control and space occupation by each team.
+Analysis of pitch control and space occupation.
 
-<p align="center">
-  <img src="github_visuals/back_area_frame.jpg" alt="Convex Areas" width="50%">
-  <img src="github_visuals/voronoi_back.jpg" alt="Team Pitch Occupation" width="50%">
-</p>
+| Convex Areas | Team Pitch Occupation |
+|-------------|-----------------------|
+| ![Convex Areas](github_visuals/back_area_frame.jpg) | ![Pitch Occupation](github_visuals/voronoi_back.jpg) |
+
 
 #### ⏳ Timeline Generation  
 Automatic timeline generation of key match events.
