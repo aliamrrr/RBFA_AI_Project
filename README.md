@@ -51,7 +51,7 @@ This Streamlit-based application provides two main functionalities for football 
 Visualization of player positions and their connections to analyze team structure.
 
 <p align="center">
-  <img src="github_visuals/area_pitch.jpg" alt="Tactical Views" width="50%">
+  <img src="github_visuals/back_area_pitch.jpg" alt="Tactical Views" width="50%">
   <img src="github_visuals/back_lines.jpg" alt="Team Connections" width="50%">
 </p>
 
