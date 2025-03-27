@@ -55,12 +55,10 @@ def show_interface_2():
                             tmp_file.write(uploaded_file.read())
                             tmp_file_path = tmp_file.name
 
-                        # Loads player and field detection models
-                        direct_link = "https://drive.google.com/file/d/1FuibHhLGI7PvaZxSPrxhtdQxveyqdKTg"
 
-                        player_detection_model = load_player_detection_model(direct_link=direct_link)  # Load the player model
+                        player_detection_model = load_player_detection_model()  # Load the player model
                         field_detection_model = load_field_detection_model()    # Load the field model
-                        print(player_detection_model)
+
                         # Displays a button to start player detection
                         if st.button("Detect players"):
                             # Shows a loading indicator during detection
@@ -87,7 +85,8 @@ def show_interface_2():
                                     with st.spinner("Classification in progress..."):
                                         try:
                                             # Prepare team classifier
-                                            team_classifier = fit_team_classifier(crops, device="cpu")[0]
+                                            device = "cuda" if torch.cuda.is_available() else "cpu"
+                                            team_classifier = fit_team_classifier(crops, device=device)[0]
                                             st.session_state.team_classifier = team_classifier
                                             st.success("Team classification model is ready!")
                                             st.write("You can now view the teams.")
@@ -152,18 +151,42 @@ def show_interface_2():
                                     annotated_frame = None
                                     frame = cv2.imread(tmp_file_path)
                                     ret = True
-                                    orig_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                                    orig_frame = frame
 
                             team_id = st.selectbox("Select team (0 or 1) to view convex hull", [0, 1])
                             use_convex_area_on_pitch = st.checkbox("Use convex hull area on pitch", value=True)
                             use_convex_area_on_frame = st.checkbox("Use convex hull area on frame", value=False)
                             save_convex_area_video = st.checkbox("Save convex hull area video", value=False)
+                            save_teams_area_video = st.checkbox("Save teams area video", value=False)
 
                             selected_color_1 = st.color_picker("Select team 0 Color", "#FFFF00")
                             selected_color_2 = st.color_picker("Select team 1 Color", "#FF0000")
 
                             color_1 = hex_to_svg_color(selected_color_1)
                             color_2 = hex_to_svg_color(selected_color_2)
+
+                            if 'position_team_0' not in st.session_state:
+                                st.session_state.position_team_0 = 'defense'  # default value
+                            if 'position_team_1' not in st.session_state:
+                                st.session_state.position_team_1 = 'attack'  # default value
+                            if 'attack_direction_team_0' not in st.session_state:
+                                st.session_state.attack_direction_team_0 = 'right'  # default value
+                            if 'attack_direction_team_1' not in st.session_state:
+                                st.session_state.attack_direction_team_1 = 'left'  # default value
+
+                            # Streamlit form for selecting positions and attack directions
+                            col1, col2 = st.columns(2)
+
+                            # Team 0 - Position and Attack Direction
+                            with col1:
+                                st.session_state.position_team_0 = st.selectbox('Select Team 0 Position', ['defense', 'middle', 'attack'])
+                                st.session_state.attack_direction_team_0 = st.selectbox('Select Team 0 Attack Direction', ['left', 'right'])
+
+                            # Team 1 - Position and Attack Direction
+                            with col2:
+                                st.session_state.position_team_1 = st.selectbox('Select Team 1 Position', ['defense', 'middle', 'attack'])
+                                st.session_state.attack_direction_team_1 = st.selectbox('Select Team 1 Attack Direction', ['left', 'right'])
+
 
                             if ret:
                                     st.image(orig_frame, channels="BGR", caption=f"Frame")
@@ -173,7 +196,17 @@ def show_interface_2():
                                     elif use_convex_area_on_frame:
                                         annotated_frame = process_frame_with_convex_hull(orig_frame, team_classifier, team_id=None)
                                     elif save_convex_area_video:
-                                        generated_lines_video(tmp_file_path, team_classifier,CONFIG,fps_output=30)
+                                            # Get values from session state
+                                        position_team_0 = st.session_state.position_team_0
+                                        position_team_1 = st.session_state.position_team_1
+                                        attack_direction_team_0 = st.session_state.attack_direction_team_0
+                                        attack_direction_team_1 = st.session_state.attack_direction_team_1
+
+                                        # Call the function with the session state values
+                                        generated_lines_video(tmp_file_path, team_classifier,CONFIG, position_team_0, position_team_1, attack_direction_team_0, attack_direction_team_1, confidence_threshold=0.5, nms_threshold=0.4, fps_output=30)
+
+                                    elif save_teams_area_video:
+                                        process_frame_with_convex_hull(orig_frame, team_classifier, input_type=input_type, video_path=tmp_file_path, team_id=None)
                                     else:
                                         annotated_frame = process_frame(orig_frame, team_classifier,color_1,color_2)
 
@@ -236,7 +269,7 @@ def show_interface_2():
                             annotated_frame = None
                             frame = cv2.imread(tmp_file_path)
                             ret = True
-                            orig_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                            orig_frame = frame
 
                         if ret and orig_frame is not None:
                             st.image(orig_frame, channels="BGR" if input_type == "Video" else "RGB", caption=f"Frame {frame_index}" if input_type == "Video" else "Uploaded Image")
