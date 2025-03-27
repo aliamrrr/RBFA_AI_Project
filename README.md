@@ -42,6 +42,15 @@ This Streamlit-based application provides two main functionalities for football 
 - Open the web interface and navigate between the two tabs:
   - **Action Analysis:** Upload a football video to extract key moments.
   - **Tactical Visualization:** Upload a video for tactical insights.
+ 
+## 📸 Input video
+
+Different options can be used to upload the match/sequence video
+
+<p align="center">
+  <img src="github_visuals/input.PNG" alt="Input video" width="100%">
+</p>
+
 
 ## 🏆 Results & Examples
 
